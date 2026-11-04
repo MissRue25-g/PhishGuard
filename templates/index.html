@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PhishGuard | URL Security Scanner</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            🛡️ PhishGuard
+        </div>
+
+        <span class="status">● Security Scanner</span>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>Protect Yourself from Phishing Attacks</h1>
+
+            <p>
+                Analyse suspicious website URLs and identify
+                potential phishing indicators before visiting them.
+            </p>
+        </section>
+
+        <section class="scanner-card">
+
+            <h2>Website Security Scanner</h2>
+
+            <p>Enter a website URL below to analyse its security.</p>
+
+            <form method="POST">
+
+                <input
+                    type="text"
+                    name="url"
+                    placeholder="https://example.com"
+                    value="{{ submitted_url }}"
+                    required
+                >
+
+                <button type="submit">
+                    🔍 Analyse URL
+                </button>
+
+            </form>
+
+            {% if result %}
+
+                {% if result.error %}
+
+                    <div class="error">
+                        {{ result.error }}
+                    </div>
+
+                {% else %}
+
+                    <div class="results">
+
+                        <h2>Scan Results</h2>
+
+                        <p>
+                            <strong>Domain:</strong>
+                            {{ result.domain }}
+                        </p>
+
+                        <div class="risk-box {{ result.risk_level|lower }}">
+
+                            <h3>{{ result.risk_level }} Risk</h3>
+
+                            <p>
+                                Risk Score:
+                                {{ result.risk_score }}/100
+                            </p>
+
+                        </div>
+
+                        <h3>Security Findings</h3>
+
+                        <ul>
+                            {% for finding in result.findings %}
+                                <li>{{ finding }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+
+        </section>
+
+        <section class="information">
+
+            <h2>Why Use PhishGuard?</h2>
+
+            <div class="features">
+
+                <div class="feature">
+                    <h3>🔍 URL Analysis</h3>
+                    <p>Examines website addresses for suspicious characteristics.</p>
+                </div>
+
+                <div class="feature">
+                    <h3>🛡️ Threat Awareness</h3>
+                    <p>Helps users recognise potential phishing indicators.</p>
+                </div>
+
+                <div class="feature">
+                    <h3>📊 Risk Assessment</h3>
+                    <p>Provides a risk score and security findings.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer>
+            <p>PhishGuard © 2026 | Cybersecurity Awareness Project</p>
+            <p>Results are heuristic indicators, not a guarantee of website safety.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
